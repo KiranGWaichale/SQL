@@ -1,0 +1,75 @@
+Create the table world with your schema and find the below queries !
+
+------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE world
+(
+	name VARCHAR(30),
+    continent VARCHAR(30),
+    area INT,
+    population INT,
+    gdp BIGINT
+);
+
+INSERT INTO world (name, continent, area, population, gdp)
+VALUES('Afghanistan', 'Asia', 652230, 25500100, 20343000000),
+	('Albania', 'Europe', 28748, 2831741, 12960000000),
+	('Algeria', 'Africa', 2381741, 37100000, 188681000000),
+	('Andorra', 'Europe', 468, 78115, 3712000000),
+	('Angola', 'Africa', 1246700, 20609294, 100990000000),
+	('Dominican Republic', 'Caribbean', 48671, 9445281, 58898000000),
+	('China', 'Asia', 9596961, 1365370000, 8358400000000),
+	('Colombia', 'South America', 1141748, 47662000, 369813000000),
+	('Comoros', 'Africa', 1862, 743798, 616000000),
+	('Denmark', 'Europe', 43094, 5634437, 314889000000),
+	('Djibouti', 'Africa', 23200, 886000, 1361000000),
+	('Dominica', 'Caribbean', 751, 71293, 499000000);
+    
+-- Q1. Write a query to fetch which country has the highest population?
+SELECT name
+FROM world
+GROUP BY name
+ORDER BY population DESC
+LIMIT 1;
+
+-- Q2. Write a query to fetch the name of the country which has the least gdp?
+SELECT name
+FROM world
+GROUP BY name
+ORDER BY gdp
+LIMIT 1;
+
+-- Q3. Write a query to fetch the name of the country which ends with letter C?
+SELECT name
+FROM world
+WHERE name LIKE '%c';
+
+-- Q4. Write a query to fetch the name of the country which starts with letter D?
+SELECT name
+FROM world
+WHERE name LIKE 'd%';
+
+-- Q5. Write query to fetch which continent has highest gdp?
+SELECT continent, sum(gdp) AS sum_of_gdp
+FROM world
+GROUP BY continent
+ORDER BY sum_gdp DESC
+LIMIT 1;
+
+-- Q6. Give the total GDP of Africa?
+SELECT SUM(gdp) AS sum_of_gdp_of_africa
+FROM world
+GROUP BY continent
+HAVING continent = 'Africa';
+
+-- Q7. Write a query to fetch the total population for each continent?
+SELECT continent, SUM(population) total_population
+FROM world
+GROUP BY continent;
+
+-- Q8. For each relevant continent show the number of countries that has a population of at least 200000000?
+
+SELECT continent, COUNT(name)
+FROM world
+GROUP BY population
+HAVING population >= 200000000;
